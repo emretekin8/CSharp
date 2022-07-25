@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Exceptions
@@ -11,7 +12,44 @@ namespace Exceptions
         static void Main(string[] args)
         {
             //ExceptionIntro();
+            //TryCatch();
+            //ACtionDemo();
 
+            Func<int, int, int> add = Add;
+
+            Console.WriteLine(add(3, 5));
+
+            Func<int> getRandomNumber = delegate ()
+            {
+                Random random = new Random();
+                return random.Next(1, 100);
+            };
+
+            Func<int> getRandomNumber2 = () => new Random().Next(1, 100);
+
+            Console.WriteLine(getRandomNumber());
+            Thread.Sleep(1); // system waits for 1 miliseconds to generate different random number. 
+            Console.WriteLine(getRandomNumber2());
+
+            Console.ReadLine();
+        }
+
+
+        static int Add(int number1, int number2)
+        {
+            return number1 + number2;
+        }
+
+        private static void ACtionDemo()
+        {
+            HandleException(() =>
+            {
+                Find();
+            });
+        }
+
+        private static void TryCatch()
+        {
             try
             {
                 Find();
@@ -20,14 +58,10 @@ namespace Exceptions
             {
                 Console.WriteLine(exception.Message);
             }
-
-
-            HandleException(() =>
+            catch
             {
-                Find();
-            });
 
-            Console.ReadLine();
+            }
         }
 
         private static void HandleException(Action action) //action = Find()
